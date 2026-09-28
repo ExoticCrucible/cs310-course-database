@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonObject;
+import com.github.cliftonlabs.json_simple.Jsoner;
 
 public class SectionDAO {
     
@@ -29,7 +32,34 @@ public class SectionDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                ps = conn.prepareStatement(QUERY_FIND);
+                ps.setInt(1, termid);
+                ps.setString(2, subjectid);
+                ps.setString(3, num);
+
+            boolean hasResults = ps.execute();
+
+                if (hasResults) {
+
+                    rs = ps.getResultSet();
+                    rsmd = rs.getMetaData();
+
+                    int columnCount = rsmd.getColumnCount();
+                    JsonArray sections = new JsonArray();
+
+                       while (rs.next()) {
+
+                        JsonObject section = new JsonObject();
+
+                           for (int i = 1; i <= columnCount; i++) {
+                        section.put(rsmd.getColumnLabel(i), rs.getString(i));
+                       }           
+
+                        sections.add(section);
+                   }
+
+                   result = Jsoner.serialize(sections);
+                }   
                 
             }
             

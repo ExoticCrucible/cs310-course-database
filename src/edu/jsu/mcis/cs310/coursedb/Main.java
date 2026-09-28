@@ -24,7 +24,21 @@ public class Main {
             int studentid = studentDao.find(USERNAME);
             System.out.println("Your Student ID is: " + studentid);
             
+            // Test SectionDAO.find()
+
+            /* SectionDAO sectionDao = daoFactory.getSectionDAO();
+            String json = sectionDao.find(20233, "CS", "310");
+
+            JsonArray sections = Jsoner.deserialize(json, new JsonArray());
+
+            System.out.println("Sections found: " + sections.size());
+            System.out.println(Jsoner.prettyPrint(json));
+            */
         }
+
+        
+
+
         
     }
     
